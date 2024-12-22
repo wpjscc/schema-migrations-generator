@@ -31,19 +31,19 @@ final class ChangesCountGenerator implements NameGeneratorInterface
     private function changeToString(ChangeType $change): string
     {
         return match ($change) {
-            ChangeType::CreateTable => 'ct',
-            ChangeType::DropTable => 'dt',
-            ChangeType::RenameTable => 'rt',
-            ChangeType::ChangeTable => 'c',
-            ChangeType::AddColumn => 'ac',
-            ChangeType::RemoveColumn => 'rc',
-            ChangeType::AlterColumn => 'alc',
-            ChangeType::AddIndex => 'ai',
-            ChangeType::RemoveIndex => 'ri',
-            ChangeType::AlterIndex => 'ali',
-            ChangeType::AddFk => 'afk',
-            ChangeType::RemoveFk => 'ffk',
-            ChangeType::AlterFk => 'alfk',
+            ChangeType::CreateTable => 'tc',
+            ChangeType::DropTable => 'td',
+            ChangeType::RenameTable => 'tr',
+            ChangeType::ChangeTable => 'tc',
+            ChangeType::AddColumn => 'ca',
+            ChangeType::DropColumn => 'cd',
+            ChangeType::AlterColumn => 'cl',
+            ChangeType::AddIndex => 'ia',
+            ChangeType::DropIndex => 'id',
+            ChangeType::AlterIndex => 'il',
+            ChangeType::AddFk => 'fa',
+            ChangeType::DropFk => 'fd',
+            ChangeType::AlterFk => 'fl',
         };
     }
 }

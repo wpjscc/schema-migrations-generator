@@ -81,10 +81,10 @@ final class ChangesCountTest extends TestCase
         $fkAlter = $this->createMock(AbstractForeignKey::class);
         $fkAlter->method('getName')->willReturn('fk3');
         $changeCmp->method('addedForeignKeys')->willReturn([$fkAdd]);
-        $changeCmp->method('droppedIndexes')->willReturn([$fkDrop]);
-        $changeCmp->method('alteredIndexes')
+        $changeCmp->method('droppedForeignKeys')->willReturn([$fkDrop]);
+        $changeCmp->method('alteredForeignKeys')
             ->willReturn([
-                [$indexAlter, $this->createMock(AbstractForeignKey::class)],
+                [$fkAlter, $this->createMock(AbstractForeignKey::class)],
             ]);
 
         // Table
@@ -100,7 +100,7 @@ final class ChangesCountTest extends TestCase
             ->addTable($change);
         $generator = new ChangesCountGenerator();
         self::assertSame(
-            'ct1_dt1_rt1_c1_ac1_rc1_alc1_ai1_ri1_ali1_afk1',
+            'tc2_td1_tr1_ca1_cd1_cl1_ia1_id1_il1_fa1_fd1_fl1',
             $generator->generate($atomizer),
         );
     }

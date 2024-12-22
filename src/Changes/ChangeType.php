@@ -14,12 +14,12 @@ enum ChangeType
     case RenameTable;
     case ChangeTable;
     case AddColumn;
-    case RemoveColumn;
+    case DropColumn;
     case AlterColumn;
     case AddIndex;
-    case RemoveIndex;
+    case DropIndex;
     case AlterIndex;
     case AddFk;
-    case RemoveFk;
+    case DropFk;
     case AlterFk;
 }
