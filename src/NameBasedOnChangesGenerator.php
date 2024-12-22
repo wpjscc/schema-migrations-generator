@@ -4,72 +4,45 @@ declare(strict_types=1);
 
 namespace Cycle\Schema\Generator\Migrations;
 
-use Cycle\Database\Schema\AbstractTable;
 use Cycle\Migrations\Atomizer\Atomizer;
+use Cycle\Schema\Generator\Migrations\Changes\ChangeType;
+use Cycle\Schema\Generator\Migrations\Changes\Collector;
+use Cycle\Schema\Generator\Migrations\Changes\CollectorInterface;
 
 final class NameBasedOnChangesGenerator implements NameGeneratorInterface
 {
     public function generate(Atomizer $atomizer): string
     {
-        $name = [];
+        $collector = new Collector();
+        return \implode(
+            '_',
+            \array_map(
+                fn(array $pair) => $this->changeToString($pair[0], $pair[1]),
+                $collector->collect($atomizer),
+            )
+        );
+    }
 
-        foreach ($atomizer->getTables() as $table) {
-            if ($table->getStatus() === AbstractTable::STATUS_NEW) {
-                $name[] = 'create_' . $table->getName();
-                continue;
-            }
-
-            if ($table->getStatus() === AbstractTable::STATUS_DECLARED_DROPPED) {
-                $name[] = 'drop_' . $table->getName();
-                continue;
-            }
-
-            if ($table->getComparator()->isRenamed()) {
-                $name[] = 'rename_' . $table->getInitialName();
-                continue;
-            }
-
-            $name[] = 'change_' . $table->getName();
-
-            $comparator = $table->getComparator();
-
-            foreach ($comparator->addedColumns() as $column) {
-                $name[] = 'add_' . $column->getName();
-            }
-
-            foreach ($comparator->droppedColumns() as $column) {
-                $name[] = 'rm_' . $column->getName();
-            }
-
-            foreach ($comparator->alteredColumns() as $column) {
-                $name[] = 'alter_' . $column[0]->getName();
-            }
-
-            foreach ($comparator->addedIndexes() as $index) {
-                $name[] = 'add_index_' . $index->getName();
-            }
-
-            foreach ($comparator->droppedIndexes() as $index) {
-                $name[] = 'rm_index_' . $index->getName();
-            }
-
-            foreach ($comparator->alteredIndexes() as $index) {
-                $name[] = 'alter_index_' . $index[0]->getName();
-            }
-
-            foreach ($comparator->addedForeignKeys() as $fk) {
-                $name[] = 'add_fk_' . $fk->getName();
-            }
-
-            foreach ($comparator->droppedForeignKeys() as $fk) {
-                $name[] = 'rm_fk_' . $fk->getName();
-            }
-
-            foreach ($comparator->alteredForeignKeys() as $fk) {
-                $name[] = 'alter_fk_' . $fk[0]->getName();
-            }
-        }
-
-        return \implode('_', $name);
+    private function changeToString(ChangeType $change, string $name): string
+    {
+        return sprintf(
+            '%s_%s',
+            match ($change) {
+                ChangeType::CreateTable => 'create',
+                ChangeType::DropTable => 'drop',
+                ChangeType::RenameTable => 'rename',
+                ChangeType::ChangeTable => 'change',
+                ChangeType::AddColumn => 'add',
+                ChangeType::RemoveColumn => 'rm',
+                ChangeType::AlterColumn => 'alter',
+                ChangeType::AddIndex => 'add_index',
+                ChangeType::RemoveIndex => 'rm_index',
+                ChangeType::AlterIndex => 'alter_index',
+                ChangeType::AddFk => 'add_fk',
+                ChangeType::RemoveFk => 'rm_fk',
+                ChangeType::AlterFk => 'alter_fk',
+            },
+            $name,
+        );
     }
 }
