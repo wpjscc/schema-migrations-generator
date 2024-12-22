@@ -8,9 +8,6 @@ use Cycle\Migrations\Atomizer\Atomizer;
 use Cycle\Schema\Generator\Migrations\Changes\ChangeType;
 use Cycle\Schema\Generator\Migrations\Changes\Collector;
 
-/**
- * @psalm-import-type TChange from Collector
- */
 final class ChangesCountGenerator implements NameGeneratorInterface
 {
     public function generate(Atomizer $atomizer): string
