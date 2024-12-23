@@ -32,7 +32,7 @@ BaseTest::$config = [
             user: 'root',
             password: 'YourStrong!Passw0rd',
         ),
-        queryCache: true
+        queryCache: true,
     ),
     'postgres' => new Config\PostgresDriverConfig(
         connection: new Config\Postgres\TcpConnectionConfig(
@@ -51,9 +51,9 @@ BaseTest::$config = [
             host: '127.0.0.1',
             port: 11433,
             user: 'SA',
-            password: 'YourStrong!Passw0rd'
+            password: 'YourStrong!Passw0rd',
         ),
-        queryCache: true
+        queryCache: true,
     ),
 ];
 
@@ -70,7 +70,7 @@ if (!empty(getenv('DB'))) {
                         user: 'root',
                         password: 'YourStrong!Passw0rd',
                     ),
-                    queryCache: true
+                    queryCache: true,
                 ),
             ];
             break;

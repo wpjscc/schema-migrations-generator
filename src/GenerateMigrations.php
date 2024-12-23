@@ -28,7 +28,7 @@ class GenerateMigrations implements GeneratorInterface
     public function __construct(
         private RepositoryInterface $repository,
         private MigrationConfig $migrationConfig,
-        GeneratorStrategyInterface $strategy = null
+        ?GeneratorStrategyInterface $strategy = null,
     ) {
         $this->strategy = $strategy ?? new SingleFileStrategy($migrationConfig, new NameBasedOnChangesGenerator());
     }

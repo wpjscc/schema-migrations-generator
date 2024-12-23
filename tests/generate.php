@@ -79,14 +79,14 @@ use %s as CommonTestCase;
  */
 final class %s extends CommonTestCase
 {
-    const DRIVER = "%s";
+    public const DRIVER = "%s";
 }',
                 $details['namespace'],
                 $class->getName(),
                 $driver,
                 $class->getShortName(),
                 $driver,
-            )
+            ),
         );
     }
 }

@@ -19,7 +19,7 @@ final class GenerateMigrationsTest extends TestCase
         $generator = new GenerateMigrations(
             $this->createMock(RepositoryInterface::class),
             new MigrationConfig(),
-            new MultipleFilesStrategy(new MigrationConfig(), $this->createMock(NameGeneratorInterface::class))
+            new MultipleFilesStrategy(new MigrationConfig(), $this->createMock(NameGeneratorInterface::class)),
         );
 
         $ref = new \ReflectionMethod($generator, 'generate');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Spiral Framework.
  *
@@ -16,5 +17,5 @@ use Cycle\Schema\Generator\Migrations\Tests\Functional\MultipleFileStrategyTest 
  */
 final class MultipleFileStrategyTest extends CommonTestCase
 {
-    const DRIVER = "mysql";
+    public const DRIVER = "mysql";
 }
