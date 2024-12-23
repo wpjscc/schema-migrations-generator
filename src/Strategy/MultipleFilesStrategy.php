@@ -19,9 +19,8 @@ final class MultipleFilesStrategy implements GeneratorStrategyInterface
     public function __construct(
         private readonly MigrationConfig $migrationConfig,
         private readonly NameGeneratorInterface $nameGenerator,
-        private readonly TableSorter $tableSorter = new TableSorter()
-    ) {
-    }
+        private readonly TableSorter $tableSorter = new TableSorter(),
+    ) {}
 
     /**
      * @param non-empty-string $database

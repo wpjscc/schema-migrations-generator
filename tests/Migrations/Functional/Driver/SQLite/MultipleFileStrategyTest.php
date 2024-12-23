@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -12,7 +11,11 @@ namespace Cycle\Schema\Generator\Migrations\Tests\Functional\Driver\SQLite;
 
 use Cycle\Schema\Generator\Migrations\Tests\Functional\MultipleFileStrategyTest as CommonTestCase;
 
+/**
+ * @group driver
+ * @group driver-sqlite
+ */
 final class MultipleFileStrategyTest extends CommonTestCase
 {
-    public const DRIVER = 'sqlite';
+    public const DRIVER = "sqlite";
 }

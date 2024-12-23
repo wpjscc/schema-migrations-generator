@@ -51,105 +51,24 @@ abstract class BaseTest extends TestCase
 {
     // currently active driver
     public const DRIVER = null;
-
     public const CONFIG = [
         'directory' => __DIR__ . '/../../files/',
         'table' => 'migrations',
         'safe' => true,
         'namespace' => 'Migration',
     ];
+
     // tests configuration
     public static array $config;
 
     // cross test driver cache
     public static array $driverCache = [];
-
     protected DriverInterface $driver;
     protected ?DatabaseManager $dbal = null;
     protected ?ORM $orm = null;
     protected LoggerInterface $logger;
     protected ClassesInterface $locator;
     protected Migrator $migrator;
-
-    /**
-     * Init all we need.
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->dbal = new DatabaseManager(new DatabaseConfig([
-            'default' => 'default',
-            'databases' => [],
-        ]));
-        $this->dbal->addDatabase(new Database(
-            'default',
-            '',
-            $this->getDriver()
-        ));
-
-        $this->dbal->addDatabase(new Database(
-            'secondary',
-            'secondary_',
-            $this->getDriver()
-        ));
-
-        $this->logger = new TestLogger();
-        $this->getDriver()->setLogger($this->logger);
-
-        if (self::$config['debug']) {
-            $this->logger->display();
-        }
-
-        $this->logger = new TestLogger();
-        $this->getDriver()->setLogger($this->logger);
-
-        if (self::$config['debug']) {
-            $this->logger->display();
-        }
-
-        $this->orm = new ORM(new Factory(
-            $this->dbal,
-            RelationConfig::getDefault()
-        ), new \Cycle\ORM\Schema([]));
-
-        $tokenizer = new Tokenizer(new TokenizerConfig([
-            'directories' => [__DIR__ . '/Fixtures'],
-            'exclude' => [],
-        ]));
-
-        $this->locator = $tokenizer->classLocator();
-
-        $config = new MigrationConfig(static::CONFIG);
-
-        $this->migrator = new Migrator(
-            $config,
-            $this->dbal,
-            new FileRepository(
-                $config,
-                new Container()
-            )
-        );
-
-        $this->migrator->configure();
-    }
-
-    /**
-     * Cleanup.
-     */
-    public function tearDown(): void
-    {
-        $files = new Files();
-        foreach ($files->getFiles(\dirname(__DIR__, 2) . '/files', '*.php') as $file) {
-            $files->delete($file);
-            clearstatcache(true, $file);
-        }
-
-        $this->disableProfiling();
-        $this->dropDatabase($this->dbal->database('default'));
-        $this->orm = null;
-        $this->dbal = null;
-    }
 
     /**
      * Calculates missing parameters for typecasting.
@@ -172,6 +91,86 @@ abstract class BaseTest extends TestCase
         }
 
         return static::$driverCache[static::DRIVER] = $this->driver;
+    }
+
+    /**
+     * Init all we need.
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->dbal = new DatabaseManager(new DatabaseConfig([
+            'default' => 'default',
+            'databases' => [],
+        ]));
+        $this->dbal->addDatabase(new Database(
+            'default',
+            '',
+            $this->getDriver(),
+        ));
+
+        $this->dbal->addDatabase(new Database(
+            'secondary',
+            'secondary_',
+            $this->getDriver(),
+        ));
+
+        $this->logger = new TestLogger();
+        $this->getDriver()->setLogger($this->logger);
+
+        if (self::$config['debug']) {
+            $this->logger->display();
+        }
+
+        $this->logger = new TestLogger();
+        $this->getDriver()->setLogger($this->logger);
+
+        if (self::$config['debug']) {
+            $this->logger->display();
+        }
+
+        $this->orm = new ORM(new Factory(
+            $this->dbal,
+            RelationConfig::getDefault(),
+        ), new \Cycle\ORM\Schema([]));
+
+        $tokenizer = new Tokenizer(new TokenizerConfig([
+            'directories' => [__DIR__ . '/Fixtures'],
+            'exclude' => [],
+        ]));
+
+        $this->locator = $tokenizer->classLocator();
+
+        $config = new MigrationConfig(static::CONFIG);
+
+        $this->migrator = new Migrator(
+            $config,
+            $this->dbal,
+            new FileRepository(
+                $config,
+                new Container(),
+            ),
+        );
+
+        $this->migrator->configure();
+    }
+
+    /**
+     * Cleanup.
+     */
+    public function tearDown(): void
+    {
+        $files = new Files();
+        foreach ($files->getFiles(\dirname(__DIR__, 2) . '/files', '*.php') as $file) {
+            $files->delete($file);
+            clearstatcache(true, $file);
+        }
+
+        $this->disableProfiling();
+        $this->dropDatabase($this->dbal->database('default'));
+        $this->orm = null;
+        $this->dbal = null;
     }
 
     protected function migrate(string $directory): array
@@ -211,10 +210,7 @@ abstract class BaseTest extends TestCase
         return $this->dbal->database('default');
     }
 
-    /**
-     * @param Database|null $database
-     */
-    protected function dropDatabase(Database $database = null): void
+    protected function dropDatabase(?Database $database = null): void
     {
         if (empty($database)) {
             return;
@@ -242,7 +238,7 @@ abstract class BaseTest extends TestCase
      */
     protected function enableProfiling(): void
     {
-        if (null !== $this->logger) {
+        if ($this->logger !== null) {
             $this->logger->display();
         }
     }
@@ -252,7 +248,7 @@ abstract class BaseTest extends TestCase
      */
     protected function disableProfiling(): void
     {
-        if (null !== $this->logger) {
+        if ($this->logger !== null) {
             $this->logger->hide();
         }
     }
@@ -267,25 +263,25 @@ abstract class BaseTest extends TestCase
         $this->assertSame(
             $source->getPrimaryKeys(),
             $target->getPrimaryKeys(),
-            'Primary keys changed'
+            'Primary keys changed',
         );
 
         $this->assertSame(
             count($source->getColumns()),
             count($target->getColumns()),
-            'Column number has changed'
+            'Column number has changed',
         );
 
         $this->assertSame(
             count($source->getIndexes()),
             count($target->getIndexes()),
-            'Index number has changed'
+            'Index number has changed',
         );
 
         $this->assertSame(
             count($source->getForeignKeys()),
             count($target->getForeignKeys()),
-            'FK number has changed'
+            'FK number has changed',
         );
 
         // columns
@@ -293,24 +289,24 @@ abstract class BaseTest extends TestCase
         foreach ($source->getColumns() as $column) {
             $this->assertTrue(
                 $target->hasColumn($column->getName()),
-                "Column {$column} has been removed"
+                "Column {$column} has been removed",
             );
 
             $this->assertTrue(
                 $column->compare($target->findColumn($column->getName())),
-                "Column {$column} has been changed"
+                "Column {$column} has been changed",
             );
         }
 
         foreach ($target->getColumns() as $column) {
             $this->assertTrue(
                 $source->hasColumn($column->getName()),
-                "Column {$column} has been added"
+                "Column {$column} has been added",
             );
 
             $this->assertTrue(
                 $column->compare($source->findColumn($column->getName())),
-                "Column {$column} has been changed"
+                "Column {$column} has been changed",
             );
         }
 
@@ -319,24 +315,24 @@ abstract class BaseTest extends TestCase
         foreach ($source->getIndexes() as $index) {
             $this->assertTrue(
                 $target->hasIndex($index->getColumns()),
-                "Index {$index->getName()} has been removed"
+                "Index {$index->getName()} has been removed",
             );
 
             $this->assertTrue(
                 $index->compare($target->findIndex($index->getColumns())),
-                "Index {$index->getName()} has been changed"
+                "Index {$index->getName()} has been changed",
             );
         }
 
         foreach ($target->getIndexes() as $index) {
             $this->assertTrue(
                 $source->hasIndex($index->getColumns()),
-                "Index {$index->getName()} has been removed"
+                "Index {$index->getName()} has been removed",
             );
 
             $this->assertTrue(
                 $index->compare($source->findIndex($index->getColumns())),
-                "Index {$index->getName()} has been changed"
+                "Index {$index->getName()} has been changed",
             );
         }
 
@@ -344,31 +340,31 @@ abstract class BaseTest extends TestCase
         foreach ($source->getForeignKeys() as $key) {
             $this->assertTrue(
                 $target->hasForeignKey($key->getColumns()),
-                "FK {$key->getName()} has been removed"
+                "FK {$key->getName()} has been removed",
             );
 
             $this->assertTrue(
                 $key->compare($target->findForeignKey($key->getColumns())),
-                "FK {$key->getName()} has been changed"
+                "FK {$key->getName()} has been changed",
             );
         }
 
         foreach ($target->getForeignKeys() as $key) {
             $this->assertTrue(
                 $source->hasForeignKey($key->getColumns()),
-                "FK {$key->getName()} has been removed"
+                "FK {$key->getName()} has been removed",
             );
 
             $this->assertTrue(
                 $key->compare($source->findForeignKey($key->getColumns())),
-                "FK {$key->getName()} has been changed"
+                "FK {$key->getName()} has been changed",
             );
         }
 
         // everything else
         $comparator = new Comparator(
             $current->getState(),
-            $current->getDriver()->getSchemaHandler()->getSchema($current->getName())->getState()
+            $current->getDriver()->getSchemaHandler()->getSchema($current->getName())->getState(),
         );
 
         if ($comparator->hasChanges()) {
@@ -399,7 +395,7 @@ abstract class BaseTest extends TestCase
 
             return "Table '{$table}' not synced, column(s) '" . implode(
                 "', '",
-                $names
+                $names,
             ) . "' have been changed.";
         }
 

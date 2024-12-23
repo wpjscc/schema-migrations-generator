@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+  <file src="src/GenerateMigrations.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$database]]></code>
+    </ArgumentTypeCoercion>
+    <MismatchingDocblockReturnType>
+      <code><![CDATA[array]]></code>
+    </MismatchingDocblockReturnType>
+    <MixedInferredReturnType>
+      <code><![CDATA[array]]></code>
+    </MixedInferredReturnType>
+    <PossiblyNullArgument>
+      <code><![CDATA[$class]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/MigrationImage.php">
+    <InvalidArgument>
+      <code><![CDATA[[$this->database, $this->name]]]></code>
+    </InvalidArgument>
+    <InvalidNullableReturnType>
+      <code><![CDATA[string]]></code>
+    </InvalidNullableReturnType>
+    <NullableReturnStatement>
+      <code><![CDATA[$this->database]]></code>
+    </NullableReturnStatement>
+  </file>
+  <file src="src/NameBasedOnChangesGenerator.php">
+    <MixedArrayAccess>
+      <code><![CDATA[$column[0]]]></code>
+      <code><![CDATA[$fk[0]]]></code>
+      <code><![CDATA[$index[0]]]></code>
+    </MixedArrayAccess>
+    <MixedAssignment>
+      <code><![CDATA[$column]]></code>
+      <code><![CDATA[$fk]]></code>
+      <code><![CDATA[$index]]></code>
+    </MixedAssignment>
+    <MixedMethodCall>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+      <code><![CDATA[getName]]></code>
+    </MixedMethodCall>
+    <MixedOperand>
+      <code><![CDATA[$column[0]->getName()]]></code>
+      <code><![CDATA[$fk[0]->getName()]]></code>
+      <code><![CDATA[$index[0]->getName()]]></code>
+    </MixedOperand>
+  </file>
+</files>

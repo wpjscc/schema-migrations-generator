@@ -77,7 +77,7 @@ abstract class MultipleFileStrategyTest extends BaseTest
         return new GenerateMigrations(
             $this->migrator->getRepository(),
             $config,
-            new MultipleFilesStrategy($config, new NameBasedOnChangesGenerator())
+            new MultipleFilesStrategy($config, new NameBasedOnChangesGenerator()),
         );
     }
 }
