@@ -1,7 +1,9 @@
-.idea/
+/.*
+!/.github/
+/runtime/
+/vendor/
 .env
 composer.lock
-vendor/
 *.db
 clover.xml
-/.phpunit.result.cache
+docker-compose.override.yml
