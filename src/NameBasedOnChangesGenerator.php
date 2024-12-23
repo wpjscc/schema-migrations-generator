@@ -7,7 +7,6 @@ namespace Cycle\Schema\Generator\Migrations;
 use Cycle\Migrations\Atomizer\Atomizer;
 use Cycle\Schema\Generator\Migrations\Changes\ChangeType;
 use Cycle\Schema\Generator\Migrations\Changes\Collector;
-use Cycle\Schema\Generator\Migrations\Changes\CollectorInterface;
 
 final class NameBasedOnChangesGenerator implements NameGeneratorInterface
 {
@@ -19,7 +18,7 @@ final class NameBasedOnChangesGenerator implements NameGeneratorInterface
             \array_map(
                 fn(array $pair) => $this->changeToString($pair[0], $pair[1]),
                 $collector->collect($atomizer),
-            )
+            ),
         );
     }
 
