@@ -20,7 +20,7 @@ class MigrationImage
 
     public function __construct(
         protected MigrationConfig $migrationConfig,
-        string $database
+        string $database,
     ) {
         $namespace = new PhpNamespace($migrationConfig->getNamespace());
         $namespace->addUse(Migration::class);
@@ -64,7 +64,7 @@ class MigrationImage
         $className = sprintf(
             'orm_%s_%s',
             $database,
-            md5(microtime(true) . microtime(false))
+            md5(microtime(true) . microtime(false)),
         );
         $this->class->setName($className);
 

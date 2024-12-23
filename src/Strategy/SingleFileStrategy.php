@@ -17,9 +17,8 @@ final class SingleFileStrategy implements GeneratorStrategyInterface
 
     public function __construct(
         private readonly MigrationConfig $migrationConfig,
-        private readonly NameGeneratorInterface $nameGenerator
-    ) {
-    }
+        private readonly NameGeneratorInterface $nameGenerator,
+    ) {}
 
     /**
      * @param non-empty-string $database

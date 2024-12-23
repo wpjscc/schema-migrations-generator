@@ -12,21 +12,10 @@ use Spiral\Reactor\FileDeclaration;
 
 class MigrationImageTest extends TestCase
 {
-    protected MigrationImage $migrationImage;
-    protected static MigrationConfig $defaultMigrationConfig;
-
     protected const DATABASE_DEFAULT = 'defaultDatabaseName';
 
-    public static function setUpBeforeClass(): void
-    {
-        static::$defaultMigrationConfig = new MigrationConfig();
-    }
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->migrationImage = new MigrationImage(static::$defaultMigrationConfig, static::DATABASE_DEFAULT);
-    }
+    protected MigrationImage $migrationImage;
+    protected static MigrationConfig $defaultMigrationConfig;
 
     public function databaseData(): array
     {
@@ -66,7 +55,7 @@ class MigrationImageTest extends TestCase
 
         $this->assertTrue(
             $file->getClasses()->has($class->getName()),
-            'The ClassDefinition exists in the FileDefinition'
+            'The ClassDefinition exists in the FileDefinition',
         );
     }
 
@@ -111,15 +100,6 @@ class MigrationImageTest extends TestCase
         $this->assertEquals('', $this->migrationImage->buildFileName(), 'Empty pattern');
     }
 
-    protected function substringInFileName(string $substr, ?string $pattern = null, string $message = ''): void
-    {
-        if (is_string($pattern)) {
-            $this->migrationImage->fileNamePattern = $pattern;
-        }
-        $fileName = $this->migrationImage->buildFileName();
-        $this->assertStringContainsStringIgnoringCase($substr, $fileName, $message);
-    }
-
     /**
      * @param string $name Empty string by default because the migration name in the MigrationImage instance
      *                     is also empty string
@@ -141,5 +121,25 @@ class MigrationImageTest extends TestCase
         if (strlen($name)) {
             $this->substringInFileName($name, '{name}', 'Migration name in the filename');
         }
+    }
+
+    public static function setUpBeforeClass(): void
+    {
+        static::$defaultMigrationConfig = new MigrationConfig();
+    }
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->migrationImage = new MigrationImage(static::$defaultMigrationConfig, static::DATABASE_DEFAULT);
+    }
+
+    protected function substringInFileName(string $substr, ?string $pattern = null, string $message = ''): void
+    {
+        if (is_string($pattern)) {
+            $this->migrationImage->fileNamePattern = $pattern;
+        }
+        $fileName = $this->migrationImage->buildFileName();
+        $this->assertStringContainsStringIgnoringCase($substr, $fileName, $message);
     }
 }
