@@ -8,7 +8,7 @@ use Cycle\Migrations\Atomizer\Atomizer;
 use Cycle\Schema\Generator\Migrations\Changes\ChangeType;
 use Cycle\Schema\Generator\Migrations\Changes\Collector;
 
-final class ChangesCountGenerator implements NameGeneratorInterface
+final class ChangesCountNameGenerator implements NameGeneratorInterface
 {
     public function generate(Atomizer $atomizer): string
     {
@@ -31,19 +31,19 @@ final class ChangesCountGenerator implements NameGeneratorInterface
     private function changeToString(ChangeType $change): string
     {
         return match ($change) {
-            ChangeType::CreateTable => 'tc',
-            ChangeType::DropTable => 'td',
-            ChangeType::RenameTable => 'tr',
-            ChangeType::ChangeTable => 'tc',
-            ChangeType::AddColumn => 'ca',
-            ChangeType::DropColumn => 'cd',
-            ChangeType::AlterColumn => 'cl',
-            ChangeType::AddIndex => 'ia',
-            ChangeType::DropIndex => 'id',
-            ChangeType::AlterIndex => 'il',
-            ChangeType::AddFk => 'fa',
-            ChangeType::DropFk => 'fd',
-            ChangeType::AlterFk => 'fl',
+            ChangeType::CreateTable => 'ct',
+            ChangeType::DropTable => 'dt',
+            ChangeType::RenameTable,
+            ChangeType::ChangeTable => 't',
+            ChangeType::AddColumn,
+            ChangeType::DropColumn,
+            ChangeType::AlterColumn => 'c',
+            ChangeType::AddIndex,
+            ChangeType::DropIndex,
+            ChangeType::AlterIndex => 'i',
+            ChangeType::AddFk,
+            ChangeType::DropFk,
+            ChangeType::AlterFk => 'fk',
         };
     }
 }

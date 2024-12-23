@@ -16,7 +16,7 @@ final class NameBasedOnChangesGenerator implements NameGeneratorInterface
         return \implode(
             '_',
             \array_map(
-                fn(array $pair) => $this->changeToString($pair[0], $pair[1]),
+                fn(array $pair): string => $this->changeToString($pair[0], $pair[1]),
                 $collector->collect($atomizer),
             ),
         );

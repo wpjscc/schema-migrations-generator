@@ -9,6 +9,9 @@ use Cycle\Migrations\Atomizer\Atomizer;
 
 final class Collector
 {
+    /**
+     * @return array<array{ChangeType, non-empty-string}>
+     */
     public function collect(Atomizer $atomizer): array
     {
         $result = [];

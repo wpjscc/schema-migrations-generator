@@ -11,11 +11,11 @@ use Cycle\Database\Schema\AbstractTable;
 use Cycle\Database\Schema\ComparatorInterface;
 use Cycle\Migrations\Atomizer\Atomizer;
 use Cycle\Migrations\Atomizer\RendererInterface;
-use Cycle\Schema\Generator\Migrations\ChangesCountGenerator;
+use Cycle\Schema\Generator\Migrations\ChangesCountNameGenerator;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \Cycle\Schema\Generator\Migrations\ChangesCountGenerator
+ * @coversDefaultClass \Cycle\Schema\Generator\Migrations\ChangesCountNameGenerator
  */
 final class ChangesCountTest extends TestCase
 {
@@ -98,9 +98,9 @@ final class ChangesCountTest extends TestCase
             ->addTable($drops)
             ->addTable($renames)
             ->addTable($change);
-        $generator = new ChangesCountGenerator();
+        $generator = new ChangesCountNameGenerator();
         self::assertSame(
-            'tc2_td1_tr1_ca1_cd1_cl1_ia1_id1_il1_fa1_fd1_fl1',
+            'ct1_dt1_t2_c3_i3_fk3',
             $generator->generate($atomizer),
         );
     }
