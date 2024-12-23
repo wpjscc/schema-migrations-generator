@@ -30,7 +30,7 @@ BaseTest::$config = [
             host: '127.0.0.1',
             port: 13306,
             user: 'root',
-            password: 'root',
+            password: 'YourStrong!Passw0rd',
         ),
         queryCache: true
     ),
@@ -40,7 +40,7 @@ BaseTest::$config = [
             host: '127.0.0.1',
             port: 15432,
             user: 'postgres',
-            password: 'postgres',
+            password: 'YourStrong!Passw0rd',
         ),
         schema: 'public',
         queryCache: true,
@@ -51,7 +51,7 @@ BaseTest::$config = [
             host: '127.0.0.1',
             port: 11433,
             user: 'SA',
-            password: 'SSpaSS__1'
+            password: 'YourStrong!Passw0rd'
         ),
         queryCache: true
     ),
@@ -68,7 +68,7 @@ if (!empty(getenv('DB'))) {
                         host: '127.0.0.1',
                         port: 23306,
                         user: 'root',
-                        password: 'root',
+                        password: 'YourStrong!Passw0rd',
                     ),
                     queryCache: true
                 ),
