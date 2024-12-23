@@ -1,6 +1,4 @@
 <?php
-
-declare(strict_types=1);
 /**
  * Spiral Framework.
  *
@@ -12,7 +10,11 @@ namespace Cycle\Schema\Generator\Migrations\Tests\Functional\Driver\Postgres;
 
 use Cycle\Schema\Generator\Migrations\Tests\Functional\SingleFileStrategyTest as CommonTestCase;
 
+/**
+ * @group driver
+ * @group driver-postgres
+ */
 final class SingleFileStrategyTest extends CommonTestCase
 {
-    public const DRIVER = 'postgres';
+    const DRIVER = "postgres";
 }

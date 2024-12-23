@@ -54,6 +54,9 @@ foreach ($classes as $class) {
     echo "Found {$class->getName()}\n";
     foreach ($databases as $driver => $details) {
         $filename = \sprintf('%s/%s.php', $details['directory'], $class->getShortName());
+        if (\file_exists($filename)) {
+            continue;
+        }
 
         file_put_contents(
             $filename,
@@ -70,14 +73,19 @@ namespace %s;
 
 use %s as CommonTestCase;
 
+/**
+ * @group driver
+ * @group driver-%s
+ */
 final class %s extends CommonTestCase
 {
     const DRIVER = "%s";
 }',
                 $details['namespace'],
                 $class->getName(),
+                $driver,
                 $class->getShortName(),
-                $driver
+                $driver,
             )
         );
     }
