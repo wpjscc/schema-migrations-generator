@@ -1,5 +1,5 @@
 {
-    "name": "cycle/schema-migrations-generator",
+    "name": "wpjscc/schema-migrations-generator",
     "type": "library",
     "license": "MIT",
     "description": "Cycle ORM Migration generation",
@@ -17,9 +17,9 @@
     ],
     "require": {
         "php": ">=8.1",
-        "cycle/database": "^2.11.3",
-        "cycle/schema-builder": "^2.11.1",
-        "cycle/migrations": "^4.2.4"
+        "wpjscc/database": "^2",
+        "wpjscc/schema-builder": "^2",
+        "wpjscc/migrations": "^4"
     },
     "require-dev": {
         "cycle/annotated": "^3.5",
