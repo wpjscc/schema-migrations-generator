@@ -22,8 +22,8 @@
         "wpjscc/migrations": "^4"
     },
     "require-dev": {
-        "cycle/annotated": "^3.5",
-        "cycle/orm": "^2.9.1",
+        "wpjscc/annotated": "^4",
+        "wpjscc/orm": "^2",
         "phpunit/phpunit": "^9.6.22",
         "spiral/code-style": "^2.2.0",
         "spiral/dumper": "^3.3.1",
